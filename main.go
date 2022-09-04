@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"image/gif"
@@ -10,23 +11,45 @@ import (
 )
 
 func main() {
-	width := 200
-	height := 200
+	max := 256
 
-	f, _ := os.Create("test.gif")
+	arr := initializeArray(max)
+	arrShuffled := shuffle(arr)
+	img := generateImage(arrShuffled)
 
-	createNewGif(f, width, height)
+	f, err := os.Create("test.gif")
+
+	if err != nil {
+		fmt.Printf("Error Occured! %q", err)
+	}
+
+	createNewGif(f, []*image.Paletted{img})
 
 }
 
-func createNewGif(out io.Writer, width, height int) {
+func generateImage(arr []int) *image.Paletted {
+	palette := []color.Color{color.White, color.Black}
+
+	rect := image.Rect(0, 0, len(arr), len(arr))
+	img := image.NewPaletted(rect, palette)
+
+	for k, v := range arr {
+		fmt.Printf("K: %v, V: %v \n", v, v)
+		img.SetColorIndex(k, len(arr)-v, uint8(1))
+	}
+	return img
+}
+
+func createNewGif(out io.Writer, imgs []*image.Paletted) {
+	// Create a GIF for every
 	images := []*image.Paletted{}
-	for i := 0; i < 50; i++ {
-		img := generateRandomImage(width, height)
-		images := append(images, img)
+	delays := []int{}
+	for _, v := range imgs {
+		images = append(images, v)
+		delays = append(delays, 10)
 	}
 
-	anim := gif.GIF{Delay: []int{0}, Image: images}
+	anim := gif.GIF{Delay: delays, Image: images}
 
 	gif.EncodeAll(out, &anim)
 
@@ -41,18 +64,34 @@ func generateRandomImage(width, height int) *image.Paletted {
 	for x := 0; x < width; x++ {
 		for y := 0; y < height; y++ {
 			c := rand.Intn(2)
-			img.Set(x, y, palette[c])
+			img.SetColorIndex(x, y, uint8(c))
 		}
 	}
 
-	img.Set(width/3, height/2, color.Black)
 	return img
 }
 
-func initializeArray(maxNum, length int) []int {
+func initializeArray(length int) []int {
 	arr := []int{}
+	// This is for random numbers
+	// for i := 0; i < length; i++ {
+	// 	arr = append(arr, rand.Intn(maxNum))
+	// }
 	for i := 0; i < length; i++ {
-		arr = append(arr, rand.Intn(maxNum))
+		arr = append(arr, i)
+	}
+	return arr
+}
+
+func shuffle(arr []int) []int {
+	for i := 0; i < 1000; i++ {
+		temp1 := rand.Intn(len(arr))
+		temp2 := rand.Intn(len(arr))
+
+		temp := arr[temp1]
+
+		arr[temp1] = arr[temp2]
+		arr[temp2] = temp
 	}
 	return arr
 }

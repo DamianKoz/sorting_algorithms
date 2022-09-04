@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestArrayInitilation(t *testing.T) {
-	got := initializeArray(100, 5)
+	got := initializeArray(100)
 
 	t.Run("array length", func(t *testing.T) {
 		want := 5
