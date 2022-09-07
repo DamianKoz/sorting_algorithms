@@ -5,6 +5,4 @@ I used this to learn the go programming language, so the code might not be optim
 
 ## Here are the visualisations created with go:
 ### Bubblesort
-![Bubblesort](https://github.com/DamianKoz/sorting_algorithms/blob/main/test.gif)
-
-<img src="https://github.com/DamianKoz/sorting_algorithms/blob/main/test.gif" width="256" height="256" />
+<img src="https://github.com/DamianKoz/sorting_algorithms/blob/main/test.gif" width="200" height="200" />
