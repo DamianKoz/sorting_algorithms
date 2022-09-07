@@ -7,4 +7,4 @@ I used this to learn the go programming language, so the code might not be optim
 ### Bubblesort
 ![Bubblesort](https://github.com/DamianKoz/sorting_algorithms/blob/main/test.gif)
 
-<img src="https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif" width="40" height="40" />
+<img src="https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif" width="256" height="256" />
