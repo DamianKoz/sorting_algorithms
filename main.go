@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	max := 10
+	max := 256
 
 	arr := initializeArray(max)
 	arrShuffled := shuffle(arr)
@@ -66,7 +66,7 @@ func createNewGif(out io.Writer, imgs []*image.Paletted) {
 	delays := []int{}
 	for _, v := range imgs {
 		images = append(images, v)
-		delays = append(delays, 100)
+		delays = append(delays, 0)
 	}
 
 	anim := gif.GIF{Delay: delays, Image: images}
