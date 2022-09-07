@@ -11,20 +11,41 @@ import (
 )
 
 func main() {
-	max := 256
+	max := 10
 
 	arr := initializeArray(max)
 	arrShuffled := shuffle(arr)
-	img := generateImage(arrShuffled)
-
+	frames := BubbleSort(arrShuffled)
+	images := generateImages(frames)
 	f, err := os.Create("test.gif")
 
 	if err != nil {
 		fmt.Printf("Error Occured! %q", err)
 	}
 
-	createNewGif(f, []*image.Paletted{img})
+	createNewGif(f, images)
 
+}
+
+// The Part about the visualizer
+type FramesCollection struct {
+	Arr [][]int
+}
+
+func (fc *FramesCollection) AddFrame(arr []int) {
+	temp := make([]int, len(arr))
+	copy(temp, arr)
+	fc.Arr = append(fc.Arr, temp)
+}
+
+func generateImages(arr FramesCollection) (imgs []*image.Paletted) {
+	for _, v := range arr.Arr {
+		img := generateImage(v)
+		imgs = append(imgs, img)
+
+	}
+	fmt.Print("Successfully created image array from single images.")
+	return imgs
 }
 
 func generateImage(arr []int) *image.Paletted {
@@ -34,7 +55,6 @@ func generateImage(arr []int) *image.Paletted {
 	img := image.NewPaletted(rect, palette)
 
 	for k, v := range arr {
-		fmt.Printf("K: %v, V: %v \n", v, v)
 		img.SetColorIndex(k, len(arr)-v, uint8(1))
 	}
 	return img
@@ -46,12 +66,13 @@ func createNewGif(out io.Writer, imgs []*image.Paletted) {
 	delays := []int{}
 	for _, v := range imgs {
 		images = append(images, v)
-		delays = append(delays, 10)
+		delays = append(delays, 100)
 	}
 
 	anim := gif.GIF{Delay: delays, Image: images}
 
 	gif.EncodeAll(out, &anim)
+	fmt.Print("Successfully created gif from single images.")
 
 }
 
@@ -83,6 +104,15 @@ func initializeArray(length int) []int {
 	return arr
 }
 
+func isSorted(arr []int) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] > arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 func shuffle(arr []int) []int {
 	for i := 0; i < 1000; i++ {
 		temp1 := rand.Intn(len(arr))
@@ -94,4 +124,31 @@ func shuffle(arr []int) []int {
 		arr[temp2] = temp
 	}
 	return arr
+}
+
+// Algorithms start here
+
+func BubbleSort(arr []int) FramesCollection {
+	swaped := false
+	framesResult := FramesCollection{}
+	framesResult.AddFrame(arr)
+
+	for !swaped {
+		swaped = true
+		for i := 0; i < len(arr)-1; i++ {
+			if arr[i] > arr[i+1] {
+				temp := arr[i]
+				arr[i] = arr[i+1]
+				arr[i+1] = temp
+				swaped = false
+				framesResult.AddFrame(arr)
+
+			}
+			if isSorted(arr) {
+				return framesResult
+			}
+		}
+	}
+	fmt.Print(framesResult)
+	return framesResult
 }
