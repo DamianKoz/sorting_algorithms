@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	max := 10
+	max := 15
 
 	arr := initializeArray(max)
 	arrShuffled := shuffle(arr)
@@ -49,16 +49,18 @@ func generateImages(arr FramesCollection) (imgs []*image.Paletted) {
 }
 
 func generateImage(arr []int) *image.Paletted {
-	multiplier := 256 / len(arr)
+	imageSize := 1000
+	pixelSize := 25
+	multiplier := imageSize / len(arr)
 	palette := []color.Color{color.White, color.Black}
 
-	rect := image.Rect(0, 0, 256, 256)
+	rect := image.Rect(0, 0, imageSize, imageSize)
 	img := image.NewPaletted(rect, palette)
 
 	for k, v := range arr {
 		img.SetColorIndex(k*multiplier, (len(arr)-v)*multiplier, uint8(1))
-		for i := -5; i < 5; i++ {
-			for j := -5; j < 5; j++ {
+		for i := -pixelSize; i < pixelSize; i++ {
+			for j := -pixelSize; j < pixelSize; j++ {
 				img.SetColorIndex(k*multiplier+i, (len(arr)-v)*multiplier+j, uint8(1))
 			}
 
@@ -79,7 +81,7 @@ func createNewGif(out io.Writer, imgs []*image.Paletted) {
 	anim := gif.GIF{Delay: delays, Image: images}
 
 	gif.EncodeAll(out, &anim)
-	fmt.Print("Successfully created gif from single images.")
+	fmt.Print("\nSuccessfully created gif from single images.")
 
 }
 
