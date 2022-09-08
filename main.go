@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	max := 80
+	max := 10
 
 	arr := initializeArray(max)
 	arrShuffled := shuffle(arr)
@@ -57,10 +57,13 @@ func generateImage(arr []int) *image.Paletted {
 
 	for k, v := range arr {
 		img.SetColorIndex(k*multiplier, (len(arr)-v)*multiplier, uint8(1))
+		for i := -5; i < 5; i++ {
+			for j := -5; j < 5; j++ {
+				img.SetColorIndex(k*multiplier+i, (len(arr)-v)*multiplier+j, uint8(1))
+			}
+
+		}
 	}
-	// for i := 0; i < len(arr); i++ {
-	// 	img.SetColorIndex(i, len(arr)-arr[i], uint8(1))
-	// }
 	return img
 }
 
@@ -70,7 +73,7 @@ func createNewGif(out io.Writer, imgs []*image.Paletted) {
 	delays := []int{}
 	for _, v := range imgs {
 		images = append(images, v)
-		delays = append(delays, 0)
+		delays = append(delays, 20)
 	}
 
 	anim := gif.GIF{Delay: delays, Image: images}
