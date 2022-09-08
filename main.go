@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	max := 256
+	max := 80
 
 	arr := initializeArray(max)
 	arrShuffled := shuffle(arr)
@@ -49,14 +49,18 @@ func generateImages(arr FramesCollection) (imgs []*image.Paletted) {
 }
 
 func generateImage(arr []int) *image.Paletted {
+	multiplier := 256 / len(arr)
 	palette := []color.Color{color.White, color.Black}
 
-	rect := image.Rect(0, 0, len(arr), len(arr))
+	rect := image.Rect(0, 0, 256, 256)
 	img := image.NewPaletted(rect, palette)
 
 	for k, v := range arr {
-		img.SetColorIndex(k, len(arr)-v, uint8(1))
+		img.SetColorIndex(k*multiplier, (len(arr)-v)*multiplier, uint8(1))
 	}
+	// for i := 0; i < len(arr); i++ {
+	// 	img.SetColorIndex(i, len(arr)-arr[i], uint8(1))
+	// }
 	return img
 }
 
