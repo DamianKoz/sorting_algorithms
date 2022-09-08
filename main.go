@@ -70,7 +70,6 @@ func generateImage(arr []int) *image.Paletted {
 }
 
 func createNewGif(out io.Writer, imgs []*image.Paletted) {
-	// Create a GIF for every
 	images := []*image.Paletted{}
 	delays := []int{}
 	for _, v := range imgs {
@@ -85,28 +84,8 @@ func createNewGif(out io.Writer, imgs []*image.Paletted) {
 
 }
 
-func generateRandomImage(width, height int) *image.Paletted {
-	palette := []color.Color{color.White, color.Black}
-
-	rect := image.Rect(0, 0, width, height)
-	img := image.NewPaletted(rect, palette)
-
-	for x := 0; x < width; x++ {
-		for y := 0; y < height; y++ {
-			c := rand.Intn(2)
-			img.SetColorIndex(x, y, uint8(c))
-		}
-	}
-
-	return img
-}
-
 func initializeArray(length int) []int {
 	arr := []int{}
-	// This is for random numbers
-	// for i := 0; i < length; i++ {
-	// 	arr = append(arr, rand.Intn(maxNum))
-	// }
 	for i := 0; i < length; i++ {
 		arr = append(arr, i)
 	}
