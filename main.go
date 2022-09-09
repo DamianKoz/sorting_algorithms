@@ -17,10 +17,11 @@ func main() {
 	arrShuffled := shuffle(arr)
 	frames := BubbleSort(arrShuffled)
 	images := generateImages(frames)
-	f, err := os.Create("test.gif")
+	algorithm := "test"
+	f, err := os.Create("algorithm_gifs/" + algorithm + ".gif")
 
 	if err != nil {
-		fmt.Printf("Error Occured! %q", err)
+		fmt.Printf("\nError Occured! %q \n", err)
 	}
 
 	createNewGif(f, images)
