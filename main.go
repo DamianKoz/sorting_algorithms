@@ -12,8 +12,8 @@ import (
 
 func main() {
 
-	current_algorithm := "bubblesort"
-	numbers := 15
+	current_algorithm := "test"
+	numbers := 25
 
 	createNewVisualisation(numbers, current_algorithm)
 }
@@ -22,7 +22,8 @@ type fn func([]int) FramesCollection
 
 func createNewVisualisation(max int, alg string) {
 	algs := map[string]fn{
-		"bubblesort": BubbleSort,
+		"bubblesort":    BubbleSort,
+		"insertionsort": InsertionSort,
 	}
 
 	if max == 0 {
@@ -33,8 +34,7 @@ func createNewVisualisation(max int, alg string) {
 	frames := algs[alg](shuffle(arr))
 	images := generateImages(frames)
 
-	algorithm := "test"
-	file_path := "algorithm_gifs/" + algorithm + ".gif"
+	file_path := "algorithm_gifs/" + alg + ".gif"
 	f, err := os.Create(file_path)
 
 	if err != nil {
@@ -67,7 +67,7 @@ func generateImages(arr FramesCollection) (imgs []*image.Paletted) {
 
 func generateImage(arr []int) *image.Paletted {
 	imageSize := 1000
-	pixelSize := 25
+	pixelSize := imageSize / len(arr) / 2
 	multiplier := imageSize / len(arr)
 	palette := []color.Color{color.White, color.Black}
 
@@ -91,7 +91,7 @@ func createNewGif(out io.Writer, imgs []*image.Paletted) {
 	delays := []int{}
 	for _, v := range imgs {
 		images = append(images, v)
-		delays = append(delays, 20)
+		delays = append(delays, 1)
 	}
 
 	anim := gif.GIF{Delay: delays, Image: images}
@@ -155,5 +155,20 @@ func BubbleSort(arr []int) FramesCollection {
 		}
 	}
 	fmt.Print(framesResult)
+	return framesResult
+}
+
+func InsertionSort(arr []int) FramesCollection {
+	framesResult := FramesCollection{}
+	framesResult.AddFrame(arr)
+	for i := 0; i < len(arr); i++ {
+		j := i
+		for j > 0 && arr[j-1] > arr[j] {
+			arr[j], arr[j-1] = arr[j-1], arr[j]
+			j -= 1
+			framesResult.AddFrame(arr)
+		}
+		framesResult.AddFrame(arr)
+	}
 	return framesResult
 }

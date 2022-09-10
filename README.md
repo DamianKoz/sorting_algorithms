@@ -10,7 +10,11 @@ I used this to learn the go programming language, so the code might not be optim
 
 A very simple sorting algorithm, which works by comparing two adjacent numbers (or pixels in this case) and moving the bigger one up.
 
-<img src="https://github.com/DamianKoz/sorting_algorithms/blob/main/algorithm_gifs/bubblesort.gif" width="256" height="256" />
+<img src="https://github.com/DamianKoz/sorting_algorithms/blob/main/algorithm_gifs/bubblesort.gif" width="1000" height="1000" />
+
+### Insertionsort
+
+<img src="https://github.com/DamianKoz/sorting_algorithms/blob/main/algorithm_gifs/insertionsort.gif" width="1000" height="1000" />
 
 # Todos:
 
