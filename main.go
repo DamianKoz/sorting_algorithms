@@ -11,21 +11,37 @@ import (
 )
 
 func main() {
-	max := 15
+
+	current_algorithm := "bubblesort"
+	numbers := 15
+
+	createNewVisualisation(numbers, current_algorithm)
+}
+
+type fn func([]int) FramesCollection
+
+func createNewVisualisation(max int, alg string) {
+	algs := map[string]fn{
+		"bubblesort": BubbleSort,
+	}
+
+	if max == 0 {
+		max = 15
+	}
 
 	arr := initializeArray(max)
-	arrShuffled := shuffle(arr)
-	frames := BubbleSort(arrShuffled)
+	frames := algs[alg](shuffle(arr))
 	images := generateImages(frames)
+
 	algorithm := "test"
-	f, err := os.Create("algorithm_gifs/" + algorithm + ".gif")
+	file_path := "algorithm_gifs/" + algorithm + ".gif"
+	f, err := os.Create(file_path)
 
 	if err != nil {
 		fmt.Printf("\nError Occured! %q \n", err)
 	}
 
 	createNewGif(f, images)
-
 }
 
 // The Part about the visualizer
