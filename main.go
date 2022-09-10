@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	current_algorithm := "test"
+	current_algorithm := "bubblesort"
 	numbers := 25
 
 	createNewVisualisation(numbers, current_algorithm)
