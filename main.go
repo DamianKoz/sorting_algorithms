@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	current_algorithm := "bubblesort"
+	current_algorithm := "insertionsort"
 	numbers := 25
 
 	createNewVisualisation(numbers, current_algorithm)
@@ -78,7 +78,7 @@ func generateImage(arr []int) *image.Paletted {
 		img.SetColorIndex(k*multiplier, (len(arr)-v)*multiplier, uint8(1))
 		for i := -pixelSize; i < pixelSize; i++ {
 			for j := -pixelSize; j < pixelSize; j++ {
-				img.SetColorIndex(k*multiplier+i, (len(arr)-v)*multiplier+j, uint8(1))
+				img.SetColorIndex(k*multiplier+i+(pixelSize), (len(arr)-v)*multiplier+j-(pixelSize), uint8(1))
 			}
 
 		}
