@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	current_algorithm := "insertionsort"
+	current_algorithm := "bubblesort"
 	numbers := 25
 
 	createNewVisualisation(numbers, current_algorithm)
@@ -66,7 +66,7 @@ func generateImages(arr FramesCollection) (imgs []*image.Paletted) {
 }
 
 func generateImage(arr []int) *image.Paletted {
-	imageSize := 1000
+	imageSize := 500
 	pixelSize := imageSize / len(arr) / 2
 	multiplier := imageSize / len(arr)
 	palette := []color.Color{color.White, color.Black}
