@@ -11,11 +11,19 @@ import (
 )
 
 func main() {
+	// Build one Picture of Mandelbrot! :)
+	// current_algorithm := "bubblesort"
+	// numbers := 25
 
-	current_algorithm := "bubblesort"
-	numbers := 25
+	// createNewVisualisation(numbers, current_algorithm)
+	testCurrentAlgorithm()
+}
 
-	createNewVisualisation(numbers, current_algorithm)
+func testCurrentAlgorithm() {
+	unsortedArr := shuffle(initializeArray(9))
+	fmt.Printf("Unsorted Array: %v\n", unsortedArr)
+	sortedArr := MergeSort(unsortedArr)
+	fmt.Printf("Sorted Array: %v\n", sortedArr)
 }
 
 type fn func([]int) FramesCollection
@@ -171,4 +179,48 @@ func InsertionSort(arr []int) FramesCollection {
 		framesResult.AddFrame(arr)
 	}
 	return framesResult
+}
+
+func MergeSort(arr []int) []int {
+	leftArr := arr[:len(arr)/2]
+	rightArr := arr[len(arr)/2:]
+	if len(leftArr) > 1 {
+		MergeSort(leftArr)
+	}
+	if len(rightArr) > 1 {
+		MergeSort(rightArr)
+	}
+	return merge(leftArr, rightArr)
+}
+
+func merge(arrLeft, arrRight []int) []int {
+	fmt.Printf("\nInput IN MERGE FUNC: %v AND RIGHT ARRAY %v\n", arrLeft, arrRight)
+
+	resLen := len(arrLeft) + len(arrRight)
+	result := make([]int, resLen)
+	indexResult := 0
+	indexL, indexR := 0, 0
+	for indexL < len(arrLeft) && indexR < len(arrRight) {
+		if arrLeft[indexL] < arrRight[indexR] {
+			result[indexResult] = arrLeft[indexL]
+			indexResult += 1
+			indexL += 1
+		} else {
+			result[indexResult] = arrRight[indexR]
+			indexResult += 1
+			indexR += 1
+		}
+	}
+	for indexL < len(arrLeft) {
+		result[indexResult] = arrLeft[indexL]
+		indexResult += 1
+		indexL += 1
+	}
+	for indexR < len(arrRight) {
+		result[indexResult] = arrRight[indexR]
+		indexResult += 1
+		indexR += 1
+	}
+	fmt.Printf("\nRESULT IN MERGE FUNC: %v\n", result)
+	return result
 }
