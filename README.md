@@ -16,7 +16,12 @@ A very simple sorting algorithm, which works by comparing two adjacent numbers (
 
 <img src="https://github.com/DamianKoz/sorting_algorithms/blob/main/algorithm_gifs/insertionsort.gif" width="500" height="500" />
 
+### MergeSort
+
+<img src="https://github.com/DamianKoz/sorting_algorithms/blob/main/algorithm_gifs/mergesort.gif" width="500" height="500" />
+
 # Todos:
 
 - Implement more algorithms
+- Add a GameOfLife gif
 - Write time-complexity for every algorithms
