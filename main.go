@@ -12,19 +12,17 @@ import (
 
 func main() {
 	// Build one Picture of Mandelbrot! :)
-	// current_algorithm := "bubblesort"
-	// numbers := 25
-
-	// createNewVisualisation(numbers, current_algorithm)
-	testCurrentAlgorithm()
+	current_algorithm := "mergeSort"
+	numbers := 26
+	createNewVisualisation(numbers, current_algorithm)
 }
 
-func testCurrentAlgorithm() {
-	unsortedArr := shuffle(initializeArray(9))
-	fmt.Printf("Unsorted Array: %v\n", unsortedArr)
-	sortedArr := MergeSort(unsortedArr)
-	fmt.Printf("Sorted Array: %v\n", sortedArr)
-}
+// func testCurrentAlgorithm() {
+// unsortedArr := shuffle(initializeArray(10))
+// fmt.Printf("Unsorted Array: %v\n", unsortedArr)
+// sortedArr := MergeSort(unsortedArr)
+// fmt.Printf("Sorted Array: %v\n", sortedArr)
+// }
 
 type fn func([]int) FramesCollection
 
@@ -32,6 +30,7 @@ func createNewVisualisation(max int, alg string) {
 	algs := map[string]fn{
 		"bubblesort":    BubbleSort,
 		"insertionsort": InsertionSort,
+		"mergeSort":     MergeSort,
 	}
 
 	if max == 0 {
@@ -99,7 +98,7 @@ func createNewGif(out io.Writer, imgs []*image.Paletted) {
 	delays := []int{}
 	for _, v := range imgs {
 		images = append(images, v)
-		delays = append(delays, 1)
+		delays = append(delays, 50)
 	}
 
 	anim := gif.GIF{Delay: delays, Image: images}
@@ -181,21 +180,25 @@ func InsertionSort(arr []int) FramesCollection {
 	return framesResult
 }
 
-func MergeSort(arr []int) []int {
-	leftArr := arr[:len(arr)/2]
-	rightArr := arr[len(arr)/2:]
-	if len(leftArr) > 1 {
-		MergeSort(leftArr)
-	}
-	if len(rightArr) > 1 {
-		MergeSort(rightArr)
-	}
-	return merge(leftArr, rightArr)
+func MergeSort(arr []int) FramesCollection {
+	framesResult := FramesCollection{}
+	framesResult.AddFrame(arr)
+	_, framesResult = mergeSort(arr, framesResult)
+	fmt.Printf("LAST ARRAY: %v", framesResult)
+	return framesResult
 }
 
-func merge(arrLeft, arrRight []int) []int {
-	fmt.Printf("\nInput IN MERGE FUNC: %v AND RIGHT ARRAY %v\n", arrLeft, arrRight)
+func mergeSort(arr []int, framesResult FramesCollection) ([]int, FramesCollection) {
+	if len(arr) < 2 {
+		return arr, framesResult
+	}
+	leftArr, framesResult := mergeSort(arr[:len(arr)/2], framesResult)
+	rightArr, framesResult := mergeSort(arr[len(arr)/2:], framesResult)
+	return merge(leftArr, rightArr, framesResult)
+}
 
+func merge(arrLeft, arrRight []int, framesResult FramesCollection) ([]int, FramesCollection) {
+	// fmt.Printf("\nInput IN MERGE FUNC: %v AND RIGHT ARRAY %v\n", arrLeft, arrRight)
 	resLen := len(arrLeft) + len(arrRight)
 	result := make([]int, resLen)
 	indexResult := 0
@@ -205,22 +208,34 @@ func merge(arrLeft, arrRight []int) []int {
 			result[indexResult] = arrLeft[indexL]
 			indexResult += 1
 			indexL += 1
+			// framesResult.AddFrame(result)
 		} else {
 			result[indexResult] = arrRight[indexR]
 			indexResult += 1
 			indexR += 1
+			// framesResult.AddFrame(result)
 		}
 	}
 	for indexL < len(arrLeft) {
 		result[indexResult] = arrLeft[indexL]
 		indexResult += 1
 		indexL += 1
+		// framesResult.AddFrame(result)
 	}
 	for indexR < len(arrRight) {
 		result[indexResult] = arrRight[indexR]
 		indexResult += 1
 		indexR += 1
+		// framesResult.AddFrame(result)
 	}
-	fmt.Printf("\nRESULT IN MERGE FUNC: %v\n", result)
-	return result
+	framesResult.AddFrame(result)
+	// fmt.Printf("\nRESULT IN MERGE FUNC: %v\n", result)
+	return result, framesResult
+}
+
+func completeArr(arrLeft, arrRight []int) []int {
+	completeArr := make([]int, len(arrLeft)+len(arrRight))
+	completeArr = append(completeArr, arrLeft...)
+	completeArr = append(completeArr, arrRight...)
+	return completeArr
 }
