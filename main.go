@@ -12,7 +12,7 @@ import (
 
 func main() {
 	// Build one Picture of Mandelbrot! :)
-	current_algorithm := "mergeSort"
+	current_algorithm := "mergesort"
 	numbers := 16
 	createNewVisualisation(numbers, current_algorithm)
 }
@@ -30,7 +30,7 @@ func createNewVisualisation(max int, alg string) {
 	algs := map[string]fn{
 		"bubblesort":    BubbleSort,
 		"insertionsort": InsertionSort,
-		"mergeSort":     MergeSort,
+		"mergesort":     MergeSort,
 	}
 
 	if max == 0 {
