@@ -13,7 +13,7 @@ import (
 func main() {
 	// Build one Picture of Mandelbrot! :)
 	current_algorithm := "mergeSort"
-	numbers := 26
+	numbers := 16
 	createNewVisualisation(numbers, current_algorithm)
 }
 
@@ -98,7 +98,7 @@ func createNewGif(out io.Writer, imgs []*image.Paletted) {
 	delays := []int{}
 	for _, v := range imgs {
 		images = append(images, v)
-		delays = append(delays, 50)
+		delays = append(delays, 45)
 	}
 
 	anim := gif.GIF{Delay: delays, Image: images}
@@ -184,7 +184,6 @@ func MergeSort(arr []int) FramesCollection {
 	framesResult := FramesCollection{}
 	framesResult.AddFrame(arr)
 	_, framesResult = mergeSort(arr, framesResult)
-	fmt.Printf("LAST ARRAY: %v", framesResult)
 	return framesResult
 }
 
@@ -198,7 +197,6 @@ func mergeSort(arr []int, framesResult FramesCollection) ([]int, FramesCollectio
 }
 
 func merge(arrLeft, arrRight []int, framesResult FramesCollection) ([]int, FramesCollection) {
-	// fmt.Printf("\nInput IN MERGE FUNC: %v AND RIGHT ARRAY %v\n", arrLeft, arrRight)
 	resLen := len(arrLeft) + len(arrRight)
 	result := make([]int, resLen)
 	indexResult := 0
@@ -208,34 +206,22 @@ func merge(arrLeft, arrRight []int, framesResult FramesCollection) ([]int, Frame
 			result[indexResult] = arrLeft[indexL]
 			indexResult += 1
 			indexL += 1
-			// framesResult.AddFrame(result)
 		} else {
 			result[indexResult] = arrRight[indexR]
 			indexResult += 1
 			indexR += 1
-			// framesResult.AddFrame(result)
 		}
 	}
 	for indexL < len(arrLeft) {
 		result[indexResult] = arrLeft[indexL]
 		indexResult += 1
 		indexL += 1
-		// framesResult.AddFrame(result)
 	}
 	for indexR < len(arrRight) {
 		result[indexResult] = arrRight[indexR]
 		indexResult += 1
 		indexR += 1
-		// framesResult.AddFrame(result)
 	}
 	framesResult.AddFrame(result)
-	// fmt.Printf("\nRESULT IN MERGE FUNC: %v\n", result)
 	return result, framesResult
-}
-
-func completeArr(arrLeft, arrRight []int) []int {
-	completeArr := make([]int, len(arrLeft)+len(arrRight))
-	completeArr = append(completeArr, arrLeft...)
-	completeArr = append(completeArr, arrRight...)
-	return completeArr
 }
