@@ -12,7 +12,7 @@ import (
 
 func main() {
 	// Build one Picture of Mandelbrot! :)
-	current_algorithm := ""
+	current_algorithm := "mergesort"
 	numbers := 16
 	createNewVisualisation(numbers, current_algorithm)
 }
@@ -74,7 +74,7 @@ func generateImages(arr FramesCollection) (imgs []*image.Paletted) {
 
 func generateImage(arr []int) *image.Paletted {
 	imageSize := 500
-	pixelSize := imageSize / len(arr) / 2
+	pixelSize := 15 //imageSize / len(arr) / 2
 	multiplier := imageSize / len(arr)
 	palette := []color.Color{color.White, color.Black}
 
