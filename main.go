@@ -13,7 +13,7 @@ import (
 func main() {
 	// Build one Picture of Mandelbrot! :)
 	current_algorithm := "mergesort"
-	numbers := 16
+	numbers := 14
 	createNewVisualisation(numbers, current_algorithm)
 }
 
@@ -41,7 +41,7 @@ func createNewVisualisation(max int, alg string) {
 	frames := algs[alg](shuffle(arr))
 	images := generateImages(frames)
 
-	file_path := "algorithm_gifs/" + alg + ".gif"
+	file_path := "algorithm_gifs/" + alg + "-BARS.gif"
 	f, err := os.Create(file_path)
 
 	if err != nil {
@@ -81,11 +81,18 @@ func generateImage(arr []int) *image.Paletted {
 	rect := image.Rect(0, 0, imageSize, imageSize)
 	img := image.NewPaletted(rect, palette)
 
-	for k, v := range arr {
+	for k, v := range arr { //k = y Pos (value from array), v = x Pos (Index in Array)
 		img.SetColorIndex(k*multiplier, (len(arr)-v)*multiplier, uint8(1))
 		for i := -pixelSize; i < pixelSize; i++ {
 			for j := -pixelSize; j < pixelSize; j++ {
-				img.SetColorIndex(k*multiplier+i+(pixelSize), (len(arr)-v)*multiplier+j-(pixelSize), uint8(1))
+				x := k*multiplier + i + (pixelSize)
+				y := (len(arr)-v)*multiplier + j - (pixelSize)
+				img.SetColorIndex(x, y, uint8(1))
+				// Uncomment following part to have bars displayed or comment it away to only have points
+				for bar := y; bar < imageSize; bar++ {
+					img.SetColorIndex(x, bar, uint8(1))
+
+				}
 			}
 
 		}
